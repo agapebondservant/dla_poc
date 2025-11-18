@@ -1,0 +1,43 @@
+quality_assurance_specialist:
+  description: >
+    Here is a driver's license image:
+    {image}
+    
+    Your task is to analyze this image and validate whether it is an authentic Colorado driver's license.
+    If it is a valid Colorado license, then say so and explain your reason.
+    If not, say so and explain your reason.
+    Provide a one-line answer.
+    
+  expected_output: >
+    A concise, one-line analysis that indicates wheher the image is a valid Colarado driver's license and the reason for the analysis.
+  agent: quality_assurance_specialist
+  allow_delegation: False
+
+content_reviewer:
+  description: >
+    Here is a driver's license image:
+    {image}
+    
+    Given the above image and context, extract the following fields from the image. If you cannot extract any field, say that the field was missing or unclear.
+
+    1. **Driver's License Name**:
+        **Name**: The name of the driver's license owner.
+        **Error Reason**: Explanation of invalid name, if applicable. If the owner of the driver's license owner is valid, leave this blank.
+    2. **Driver's Date of Birth**: 
+       **Date of Birth**: The date of birth of the driver's license owner.
+       **Error Reason**: Explanation of invalid date of birth, if applicable. If the date of birth of the driver's license owner is valid, leave this blank.
+    3. **License Expiration Date**: 
+        **Expiration Date**: The expiration date of the driver's license.
+        **Error Reason**: Explanation of invalid expiration date, if applicable. If the expiration date of the driver's license is valid, leave this blank.
+    4. **Driver's License Issuance Date**: 
+        **State Issued**: US state that issued the license.
+        **Error Reason**: Explanation of invalid US state, if applicable. If the US state that issued the license, leave this blank.
+    
+  expected_output: >
+    DriversLicenseMetadata
+  agent: content_reviewer
+  allow_delegation: False
+  context:
+    - quality_assurance_specialist_task
+  markdown: True
+  output_file: extracted.md
