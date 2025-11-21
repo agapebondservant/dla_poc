@@ -42,7 +42,9 @@
     "updateDate": "2025-11-03 10:55:50",
     "value": "25CAP-00000-04TIP",
     "dob": "1969-05-27 00:00:00",
-    "expirationDate": "2029-05-27 00:00:00"
+    "expirationDate": "2029-05-27 00:00:00",
+    "dl": "99-064-0671",
+    "state": "Colorado"
   },
   {
     "changed": true,

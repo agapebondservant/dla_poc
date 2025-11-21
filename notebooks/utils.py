@@ -6,6 +6,10 @@ import requests
 
 from jsonpath_ng import jsonpath, parse
 
+from github import Github
+
+import base64
+
 def load_file_as_json(file_path):
     """
     Given a file, returns its content as JSON.
@@ -84,42 +88,46 @@ def get_jsonpath_match(content, jsonexpression, first_match=True):
 
     return matches[0] if first_match else matches
 
-def download_directory_from_git_url(repo_url):
-
-    from github import Github
-import os
-import base64
-
-def download_github_folder_with_api(token, repo_name, branch, folder_path, destination_path):
+def download_directory_from_git_url(repo_url, branch="main", folder_path, destination_path):
     """
     Downloads a specific folder from a GitHub repository.
 
     Args:
         token (str): Your GitHub Personal Access Token.
-        repo_name (str): The full name of the repository.
+        repo_url (str): The full name of the repository.
         branch (str): The branch name.
         folder_path (str): The path to the folder within the repository.
         destination_path (str): The local path where the folder should be downloaded.
     """
     g = Github(os.getenv("GITHUB_TOKEN"))
-    repo = g.get_user().get_repo(repo_name.split('/')[-1]) # Adjust for organization repos if needed
+    
+    repo = g.get_user().get_repo(repo_url.split('/')[-1]) # Adjust for organization repos if needed
 
     try:
         contents = repo.get_contents(folder_path, ref=branch)
+        
         os.makedirs(destination_path, exist_ok=True)
 
         for content_file in contents:
+            
             file_path = os.path.join(destination_path, content_file.name)
+            
             if content_file.type == "dir":
-                # Recursively call for subdirectories
-                download_github_folder_with_api(token, repo_name, branch, content_file.path, file_path)
-            else:
-                file_content = repo.get_contents(content_file.path, ref=branch)
-                if file_content.content:
-                    decoded_content = base64.b64decode(file_content.content)
-                    with open(file_path, 'wb') as f:
-                        f.write(decoded_content)
+                
+                continue
+
+            file_content = repo.get_contents(content_file.path, ref=branch)
+            
+            if file_content.content:
+                
+                decoded_content = base64.b64decode(file_content.content)
+                
+                with open(file_path, 'wb') as f:
+                    
+                    f.write(decoded_content)
+                    
         print(f"Folder '{folder_path}' downloaded to '{destination_path}' successfully using PyGithub.")
 
     except Exception as e:
-        print(f"Error downloading folder with PyGithub: {e}")
+        
+        print(f"Error downloading folder {folder_path} from {repo_url}: {e}")

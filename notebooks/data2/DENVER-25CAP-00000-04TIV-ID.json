@@ -42,7 +42,9 @@
     "updateDate": "2025-11-03 11:00:29",
     "value": "25CAP-00000-04TIV",
     "dob": "1979-11-13 00:00:00",
-    "expirationDate": "2030-11-13 00:00:00"
+    "expirationDate": "2030-11-13 00:00:00",
+    "dl": "13-227-0822",
+    "state": "Colorado"
   },
   {
     "changed": true,

@@ -42,7 +42,9 @@
     "updateDate": "2025-11-03 09:17:17",
     "value": "25CAP-00000-04SZC",
     "dob": "1983-04-05 00:00:00",
-    "expirationDate": "2028-04-05 00:00:00"
+    "expirationDate": "2028-04-05 00:00:00",
+    "dl": "Y68519",
+    "state": "Colorado"
   },
   {
     "changed": true,

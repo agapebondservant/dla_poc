@@ -42,7 +42,9 @@
     "updateDate": "2025-10-31 13:46:20",
     "value": "25CAP-00000-04SWA",
     "dob": "1975-12-06 00:00:00",
-    "expirationDate": "2029-12-06 00:00:00"
+    "expirationDate": "2029-12-06 00:00:00",
+    "dl": "17-176-1767",
+    "state": "Colorado"
   },
   {
     "changed": true,

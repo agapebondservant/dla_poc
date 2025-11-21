@@ -42,7 +42,9 @@
     "updateDate": "2025-10-31 12:46:39",
     "value": "25CAP-00000-04SUF",
     "dob": "1954-07-29 00:00:00",
-    "expirationDate": "2028-07-29 00:00:00"
+    "expirationDate": "2028-07-29 00:00:00",
+    "dl": "94-223-0294",
+    "state": "Colorado"
   },
   {
     "changed": true,
