@@ -39,5 +39,5 @@ content_reviewer:
   allow_delegation: False
   context:
     - quality_assurance_specialist_task
-  markdown: True
-  output_file: extracted.md
+  markdown: False
+  output_file: extracted.json

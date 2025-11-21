@@ -17,11 +17,11 @@ import os
 
 main_llm = LLM(
     
-    model=os.getenv('MAIN_LLM_ID'),
+    model=os.getenv('LLAMASCOUT4_LLM_NAME'),
     
-    api_key=os.getenv('MAIN_LLM_TOKEN'),
+    api_key=os.getenv('LLAMASCOUT4_LLM_KEY'),
     
-    base_url=os.getenv('MAIN_LLM_API_BASE'),
+    base_url=os.getenv('LLAMASCOUT4_LLM_BASE'),
 
     max_tokens = 8192,
 )
@@ -32,9 +32,9 @@ main_llm = LLM(
 
 class DriversLicenseField(BaseModel):
     
-    field: str = Field(description="Name of field", default=None)
+    field: str = Field(description="Name of field", default="")
     
-    error_reason: str = Field(description="Reason for invalid or missing field", default=None)
+    error_reason: str = Field(description="Reason for invalid or missing field", default="")
 
 class DriversLicenseMetadata(BaseModel):
     
