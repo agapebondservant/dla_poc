@@ -88,7 +88,7 @@ def get_jsonpath_match(content, jsonexpression, first_match=True):
 
     return matches[0] if first_match else matches
 
-def download_directory_from_git_url(repo_url, branch="main", folder_path, destination_path):
+def download_directory_from_git_url(repo_url, folder_path, destination_path, branch="main"):
     """
     Downloads a specific folder from a GitHub repository.
 
