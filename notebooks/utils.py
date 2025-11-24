@@ -16,6 +16,10 @@ from urllib.parse import urlparse
 
 import traceback
 
+import pandas as pd
+
+import ast
+
 def load_file_as_json(file_path):
     """
     Given a file, returns its content as JSON.
@@ -234,3 +238,47 @@ def convert_to_submitted_fields(applications: list, patterns_file_path: str) -> 
         print(f"Error extracting submitted data: {e}")
 
         traceback.print_exc()
+
+###############################################################################################
+# Report Generation
+###############################################################################################
+
+def data_report_prep(data: pd.DataFrame):
+    """
+    Transforms the columns of the dataframe to a format more suitable for the reports/visualizations that will be created.
+    """
+    transformed_df = data.copy()
+
+    def ast_lteral_eval(obj): 
+        return ast.literal_eval(obj) if isinstance(obj, str) and obj.strip().startswith(('{', '[')) else None
+
+    transformed_df["extracted_data_dict"]= transformed_df["extracted_data"].apply(ast_lteral_eval)
+
+    transformed_df["eval_data_dict"]= transformed_df["eval_data"].apply(ast_lteral_eval)
+
+    extracted_df = pd.json_normalize(transformed_df["extracted_data_dict"]).add_prefix("extracted_")
+
+    eval_df = pd.json_normalize(transformed_df["eval_data_dict"]).add_prefix("eval_")
+
+    return pd.concat([transformed_df.drop(columns=["extracted_data", 
+                                                   "eval_data", 
+                                                   "extracted_data_dict",
+                                                   "eval_data_dict"]),
+              extracted_df,
+              eval_df],
+              axis=1)
+    
+
+def generate_visualizatioms(data: pd.DataFrame, target_dir: str):
+    """Generates visualizations from the given dataframe."""
+    pass
+
+def generate_csv_report(data: pd.DataFrame, target_dir: str):
+    """Generates a CSV file from the given dataframe."""
+    os.makedirs(target_dir, exist_ok=True)
+    data.to_csv(f"{target_dir}/dataset_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl", orient='records', lines=True)
+
+def generate_jsonl_report(data: pd.DataFrame, target_dir: str):
+    """Generates a jsonl file from the given dataframe."""
+    os.makedirs(target_dir, exist_ok=True)
+    data.to_json(f"{target_dir}/dataset_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl", orient='records', lines=True)

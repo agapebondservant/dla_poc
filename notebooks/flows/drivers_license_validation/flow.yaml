@@ -61,11 +61,45 @@ blocks:
       start_tags: [""]
       end_tags: [""]
 
-  - block_type: RenameColumnsBlock
+  - block_type: PromptBuilderBlock
     block_config:
-      block_name: rename_fields
+      block_name: evaluate_data_from_image_prompt
       input_cols:
-        extract_json_data_from_output_content: extracted_data_output
+      - image_path
+      - application_id
+      - name
+      - date_of_birth
+      - expiration_date
+      - dl_number
+      - state_issued
+      - extracted_data
+      output_cols: eval_from_image_prompt
+      prompt_config_path: prompts/eval_from_image.yaml
+      format_as_messages: true
+
+  - block_type: LLMChatBlock
+    block_config:
+      block_name: eval_data_from_image
+      input_cols: eval_from_image_prompt
+      output_cols: extracted_eval_full
+      max_tokens: 8192
+      async_mode: true
+      n: 1
+
+  - block_type: LLMParserBlock
+    block_config:
+      block_name: eval_json_data_from_output
+      input_cols: extracted_eval_full
+      extract_content: true
+      extract_reasoning_content: true
+
+  - block_type: TextParserBlock
+    block_config:
+      block_name: eval_json_data_from_output_text
+      input_cols: eval_json_data_from_output_content
+      output_cols: eval_data
+      start_tags: [""]
+      end_tags: [""]
 
   - block_type: CustomDeleteColumnsBlock
     block_config:
@@ -73,5 +107,7 @@ blocks:
       input_cols:
         - extracted_data_full
         - data_from_image_prompt
-        - extracted_data_full
-        - extracted_data_output
+        - extract_json_data_from_output_content
+        - extracted_eval_full
+        - eval_from_image_prompt
+        - eval_json_data_from_output_content
