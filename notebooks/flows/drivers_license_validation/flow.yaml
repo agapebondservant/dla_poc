@@ -66,3 +66,11 @@ blocks:
       block_name: rename_fields
       input_cols:
         extract_json_data_from_output_content: extracted_data_output
+
+  - block_type: CustomDeleteColumnsBlock
+    block_config:
+      block_name: drop_fields
+      input_cols:
+        - data_from_image_prompt
+        - extracted_data_full
+        - extracted_data_output
